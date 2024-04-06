@@ -1,32 +1,36 @@
 import { mutation, query } from "./_generated/server";
+
 import { ConvexError, v } from "convex/values"
+
+
+
+export const generateUploadUrl = mutation(async (ctx) => {
+  return await ctx.storage.generateUploadUrl();
+});
 
 
 
 export const createVideo = mutation({
   args: {
-    id: v.string(),
+    storageId: v.id("_storage"),
+    title: v.string(),
     userId: v.string(),
-
-    name: v.string(),
-    description: v.string(),
-
+    description: v.string()
   },
-  async handler(ctx, args) {
+  handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) { throw new ConvexError("you must be logged in") }
     await ctx.db.insert("videos", {
-      id: args.id,
+      id: args.storageId,
       userId: args.userId,
-      name: args.name,
+      title: args.title,
       description: args.description,
 
-    }).then((res) => {
-      console.log("success", res)
-    }
-    )
-  }
-})
+    }).then(res => {
+      console.log('success', res)
+    });
+  },
+});
 
 
 
@@ -51,3 +55,52 @@ export const listVideos = query({
 }
 
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export const createVideo = mutation({
+//   args: {
+//     id: v.string(),
+//     userId: v.string(),
+//     name: v.string(),
+//     description: v.string(),
+
+//   },
+//   async handler(ctx, args) {
+//     const identity = await ctx.auth.getUserIdentity();
+//     if (!identity) { throw new ConvexError("you must be logged in") }
+//     await ctx.db.insert("videos", {
+//       id: args.id,
+//       userId: args.userId,
+//       name: args.name,
+//       description: args.description,
+
+//     }).then((res) => {
+//       console.log("success", res)
+//     }
+//     )
+//   }
+// })

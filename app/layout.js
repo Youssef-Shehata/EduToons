@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { ClerkProvider } from '@clerk/nextjs'
 import ConvexClientProvider from "./ConvexClientProvider";
 import Header from "@/components/ui/Header";
+import { ThemeProvider } from "@/components/theme-provider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -28,8 +29,14 @@ export default function RootLayout({ children }) {
         <ConvexClientProvider>
 
           <Header />
-          {children}
-
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
         </ConvexClientProvider>
 
 

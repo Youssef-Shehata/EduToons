@@ -4,12 +4,23 @@ export const fileTypes = v.union(
   v.literal("mp4"),
   v.literal("png")
 );
+
+
+
 export default defineSchema({
   videos: defineTable({
     description: v.string(),
-    id: v.id("_storage"),
-    type: fileTypes,
+    id: v.string(),
+    type: v.optional(fileTypes),
     userId: v.string(),
-    name: v.string(),
+    title: v.string(),
+    topics: v.optional(v.array(v.string()))
   }).index("by_userId", ['userId']),
 });
+
+
+
+
+
+
+

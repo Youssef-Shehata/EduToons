@@ -1,14 +1,13 @@
 'use client'
-import { SignInButton, SignOutButton, SignUpButton, SignedIn, SignedOut, UserButton, useSession } from "@clerk/nextjs";
+import { SignInButton, SignOutButton, SignUpButton, SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button"
 import React from 'react';
 import Link from 'next/link';
 
 const Header = () => {
-  const session = useSession();
 
   return (
-    <header className="bg-blue-900 text-white py-4 flex items-center">
+    <header className="bg-gray-900 text-white py-4 px-3 flex items-center">
       <div className="container mx-auto px-4 flex justify-between">
         <Link href="/" className="text-2xl font-bold">EduToons
 
