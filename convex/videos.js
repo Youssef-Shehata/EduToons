@@ -18,7 +18,10 @@ export const createVideo = mutation({
     description: v.string()
   },
   handler: async (ctx, args) => {
+    // throw new Error('u aint got acces ma dawg');
     const identity = await ctx.auth.getUserIdentity();
+    console.log(args)
+    if (identity) console.log(identity)
     if (!identity) { throw new ConvexError("you must be logged in") }
     await ctx.db.insert("videos", {
       id: args.storageId,
@@ -41,9 +44,15 @@ export const listVideos = query({
 
   },
   async handler(ctx, args) {
-    // const identity = await ctx.auth.getUserIdentity();
-    // if (!identity) { throw new ConvexError("you must be logged in") }
-    let videos = await ctx.db.query("videos").withIndex("by_userId", (q) => { return q.eq("userId", args.userId) }).collect();
+    const identity = await ctx.auth.getUserIdentity();
+    let videos = []
+    // console.log(args)
+    if (identity) {
+      videos = await ctx.db.query("videos").withIndex("by_userId", (q) => { return q.eq("userId", args.userId) }).collect();
+      console.log(identity)
+
+    }
+    // if (identity == undefined) { throw new ConvexError("you must be logged in") }
     // if (query) {
     //   query = query.toString().toLowerCase()
     //   videos = videos.filter((file) =>

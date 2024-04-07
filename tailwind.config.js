@@ -28,6 +28,18 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+
+
+        electro: '#2f3640',
+        pico: '#192a56',
+        skirit: '#44bd32',
+        greey: '#212121',
+        teal: '#004D40',
+        cyan: '#0097A7',
+        blueGrey: '#263238',
+        redish: '#6D214F',
+        trash: '#424242',
+
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
