@@ -45,25 +45,69 @@ export const listVideos = query({
   },
   async handler(ctx, args) {
     const identity = await ctx.auth.getUserIdentity();
+
     let videos = []
+    let isEmpty = false
     // console.log(args)
     if (identity) {
       videos = await ctx.db.query("videos").withIndex("by_userId", (q) => { return q.eq("userId", args.userId) }).collect();
-      console.log(identity)
+      if (videos.length == 0) isEmpty = true
+      // console.log(identity)
 
     }
+
     // if (identity == undefined) { throw new ConvexError("you must be logged in") }
-    // if (query) {
-    //   query = query.toString().toLowerCase()
-    //   videos = videos.filter((file) =>
-    //     file.name.toLowerCase().includes(query)
-    //   );
-    // }
-    return videos;
+    let query = args.query
+    if (query?.length > 0) {
+      query = query.toString().toLowerCase().trim()
+      videos = videos.filter((file) =>
+        file.title.toLowerCase().includes(query)
+      );
+    }
+
+
+    return Promise.all(
+      videos.map(async (vid) => ({
+        ...vid,
+        // If the message is an "image" its `body` is an `Id<"_storage">`
+        ...{ url: await ctx.storage.getUrl(vid.id) }
+
+      })),
+    );
   }
 }
 
 )
+
+
+export const deleteVideo = mutation({
+  args: {
+    vidId: v.id('videos'),
+    vidStrgId: v.id('_storage'),
+
+  },
+
+  async handler(ctx, args) {
+    // throw new ConvexError("you must be logged in")
+
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) { throw new ConvexError("you must be logged in") }
+    const vid = await ctx.db.get(args.vidId);
+    if (!vid) {
+      throw new ConvexError("Vid doesnt exist.")
+
+    }
+
+
+
+    await ctx.db.delete(args.vidId)
+    await ctx.storage.delete(args.vidStrgId)
+
+  }
+
+
+
+})
 
 
 

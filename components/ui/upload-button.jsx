@@ -35,8 +35,7 @@ const formSchema = z.object({
 
 })
 
-
-export default function UploadButton() {
+export default function UploadButton({ size }) {
   const { user, isLoaded, isSignedIn } = useUser()
   const { toast } = useToast()
 
@@ -47,11 +46,6 @@ export default function UploadButton() {
   }
   const generateUploadUrl = useMutation(api.videos.generateUploadUrl);
   const createVid = useMutation(api.videos.createVideo)
-
-
-
-
-
 
 
   const form = useForm({
@@ -104,9 +98,7 @@ export default function UploadButton() {
         description: `couldnt upload ${values.title}`
       })
     }
-
   }
-
 
   return (
     <Dialog open={dialogOpen} onOpenChange={(dialogOpen) => {
@@ -114,7 +106,7 @@ export default function UploadButton() {
       form.reset();
     }}>
       <DialogTrigger asChild>
-        <Button variant="default">Upload Vid </Button>
+        <Button variant="default" size={size}>Upload Vid </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -165,8 +157,6 @@ export default function UploadButton() {
                       )}
                     />
  */}
-
-
                 <FormField
                   control={form.control}
                   name="video"
