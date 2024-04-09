@@ -11,13 +11,13 @@ import Image from 'next/image';
 
 import FileActions from "./file-actions";
 
-export default function FileCard({ vid }) {
+export default function FileCard({ vid, userType }) {
   return (
 
     <Card className='border-0'>
       <CardHeader className='relative flex justify-between '>
         <CardTitle>{vid.title}</CardTitle>
-        <div className="absolute bottom-6 right-2"><FileActions vid={vid} /></div>
+        <div className="absolute bottom-6 right-2"><FileActions vid={vid} userType={userType} /></div>
       </CardHeader>
       <CardContent className=" flex justify-center items-center">
         <video className=" mt-1 " width="400" height='300' controls loop muted preload="metadata">

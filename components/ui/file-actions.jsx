@@ -21,66 +21,71 @@ import { useState } from "react";
 import { useMutation } from 'convex/react'
 import { api } from "@/convex/_generated/api";
 import { useToast } from "./use-toast";
+import { fileTypes } from "@/convex/schema";
 
 
 
-export default function FileActions({ vid }) {
+export default function FileActions({ vid, userType }) {
   const deleteVideo = useMutation(api.videos.deleteVideo)
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const { toast } = useToast()
   return (
+
     <>
-      <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete your Video
-              and remove it from our servers.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={
-              async () => {
 
-                try {
-                  await deleteVideo({
-                    vidId: vid._id,
-                    vidStrgId: vid.id
-                  })
-                  toast({
-                    variant: 'success',
-                    title: 'Video Deleted!',
-                    description: `Deleted ${vid.title} successfully.`
-                  })
-                } catch (e) {
-                  toast({
-                    variant: 'destructive',
-                    title: 'Error while deleting video!',
-                    description: `couldnt delete ${vid.title} , try again later.`
-                  })
+      {userType == 'teacher' && (<>
+        <AlertDialog open={isConfirmOpen} onOpenChange={setIsConfirmOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your Video
+                and remove it from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={
+                async () => {
+
+                  try {
+                    await deleteVideo({
+                      vidId: vid._id,
+                      vidStrgId: vid.id
+                    })
+                    toast({
+                      variant: 'success',
+                      title: 'Video Deleted!',
+                      description: `Deleted ${vid.title} successfully.`
+                    })
+                  } catch (e) {
+                    toast({
+                      variant: 'destructive',
+                      title: 'Error while deleting video!',
+                      description: `couldnt delete ${vid.title} , try again later.`
+                    })
+                  }
+
+
+
+
                 }
+              }>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        <DropdownMenu >
+          <DropdownMenuTrigger>
+            <EllipsisVertical size={20} color="#ffffff" strokeWidth={1.75} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onClick={() => setIsConfirmOpen(true)} className='flex gap-1 text-gray-100  cursor-pointer hover:bg-rose-800 '>
+              <Trash2 size={20} color="#ffffff" strokeWidth={1.75} />Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </>)}
 
-
-
-
-              }
-            }>Continue</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-
-      <DropdownMenu >
-        <DropdownMenuTrigger>
-          <EllipsisVertical size={20} color="#ffffff" strokeWidth={1.75} />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => setIsConfirmOpen(true)} className='flex gap-1 text-gray-100  cursor-pointer hover:bg-rose-800 '>
-            <Trash2 size={20} color="#ffffff" strokeWidth={1.75} />Delete</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </>
+
   )
 }

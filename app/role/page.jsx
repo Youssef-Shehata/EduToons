@@ -22,19 +22,20 @@ export async function createRole(userId, role) {
   return data
 }
 
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { useState } from 'react'; // Import useState for feedback
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 export default function Role() {
   const router = useRouter()
-
+  const { user } = useUser()
+  console.log(user)
   const { userId } = useAuth();
   const [loading, setLoading] = useState(false); // Track loading state
   const [error, setError] = useState(null); // Track errors
 
-  const handleCreateRole = async (role) => {
+  const handleCreateRole = async (role, userName) => {
     setLoading(true);
     setError(null); // Clear previous errors
 
@@ -47,8 +48,16 @@ export default function Role() {
     } catch (error) {
       setError(error.message); // Store error message for display
     } finally {
+
       setLoading(false); // Clear loading state
-      router.push('/')
+      if (role == 'teacher') {
+        router.push(`/teacher/${userId}`)
+
+
+      } else {
+        router.push(`/srudent/${userId}`)
+
+      }
     }
   };
 

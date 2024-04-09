@@ -40,7 +40,7 @@ export const createVideo = mutation({
 export const listVideos = query({
   args: {
     userId: v.string(),
-    query: v.optional(v.string()),
+    // query: v.optional(v.string()),
 
   },
   async handler(ctx, args) {
@@ -51,18 +51,10 @@ export const listVideos = query({
     // console.log(args)
     if (identity) {
       videos = await ctx.db.query("videos").withIndex("by_userId", (q) => { return q.eq("userId", args.userId) }).collect();
+
       if (videos.length == 0) isEmpty = true
       // console.log(identity)
 
-    }
-
-    // if (identity == undefined) { throw new ConvexError("you must be logged in") }
-    let query = args.query
-    if (query?.length > 0) {
-      query = query.toString().toLowerCase().trim()
-      videos = videos.filter((file) =>
-        file.title.toLowerCase().includes(query)
-      );
     }
 
 
