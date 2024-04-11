@@ -1,3 +1,4 @@
+import Characters from "@/components/ui/characters"
 import TeacherCard from "@/components/ui/teacher-card"
 
 
@@ -6,12 +7,13 @@ export default function StudentPage({ teachers }) {
   console.log("im in student page holaaaaaaaaaaa", teachers[0]?.imageUrl)
 
   return (
-    <main className="container mx-auto pt-9 p-14">
+    <main className="container mx-auto p-3">
 
       <div className="flex  justify-between items-center mb-8 ">
         <h1 className="text-4xl font-bold pb-2 ">Teachers </h1>
         <div className="flex gap-5 items-center">
-          {/* <SearchBar updateVids={updateVids} /> */}
+          <Characters />
+          {/* <SearchBarz updateVids={updateVids} /> */}
           {/* <UploadButton /> */}
         </div>
       </div>

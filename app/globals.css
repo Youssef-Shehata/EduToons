@@ -35,6 +35,32 @@
     --radius: 0.5rem;
   }
 
+  /* Tailwind CSS */
+
+  /* You can adjust the unique identifier and weight accordingly */
+  .gluten-custom {
+    font-family: "Gluten", cursive;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    /* Adjust the weight as needed */
+    font-style: normal;
+    font-variation-settings: "slnt" 0;
+  }
+
+  .lemonada {
+    font-family: "Lemonada", cursive;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .edu-qld {
+    font-family: "Edu QLD Beginner", cursive;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;

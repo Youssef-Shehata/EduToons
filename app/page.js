@@ -1,13 +1,14 @@
 "use client";
-import { useQuery } from "convex/react";
-import { api } from "../convex/_generated/api";
-import { Button } from "@/components/ui/button";
+import Header from "@/components/ui/Header";
+import TransitioningBackground from "@/components/ui/transition-background";
 
 export default function Home() {
 
   return (
-    <>
+    <div className="relative h-screen ">
 
-    </>
+      <TransitioningBackground />
+
+    </div >
   );
 }

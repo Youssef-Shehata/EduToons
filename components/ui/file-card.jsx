@@ -20,7 +20,7 @@ export default function FileCard({ vid, userType }) {
         <div className="absolute bottom-6 right-2"><FileActions vid={vid} userType={userType} /></div>
       </CardHeader>
       <CardContent className=" flex justify-center items-center">
-        <video className=" mt-1 " width="400" height='300' controls loop muted preload="metadata">
+        <video className=" mt-1 object-contain " width="400" height='300' controls loop muted preload="metadata">
           <source src={vid.url} type="video/mp4" />
           {/* <track
             src="/path/to/captions.vtt"

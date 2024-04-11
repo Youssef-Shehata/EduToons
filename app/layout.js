@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
-import { ClerkProvider } from '@clerk/nextjs'
 import ConvexClientProvider from "./ConvexClientProvider";
 import Header from "@/components/ui/Header";
 import { ThemeProvider } from "@/components/theme-provider"
@@ -21,12 +20,24 @@ export default function RootLayout({ children }) {
   return (
 
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner:wght@400..700&family=Gluten:wght@100..900&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Gluten:wght@100..900&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Beginner:wght@400..700&family=Gluten:wght@100..900&family=Lemonada:wght@300..700&display=swap" rel="stylesheet" />
+      </head>
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
         )}
       >
+
         <ConvexClientProvider>
 
           <Header />
@@ -41,7 +52,6 @@ export default function RootLayout({ children }) {
 
           </ThemeProvider>
         </ConvexClientProvider>
-
 
       </body>
     </html>

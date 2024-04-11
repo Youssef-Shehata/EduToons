@@ -11,6 +11,7 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+
     container: {
       center: true,
       padding: "2rem",
@@ -39,6 +40,7 @@ module.exports = {
         blueGrey: '#263238',
         redish: '#6D214F',
         trash: '#424242',
+        sh7toot: "#0c0a09",
 
         primary: {
           DEFAULT: "hsl(var(--primary))",
