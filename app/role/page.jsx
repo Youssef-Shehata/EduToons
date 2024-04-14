@@ -51,11 +51,11 @@ export default function Role() {
 
       setLoading(false); // Clear loading state
       if (role == 'teacher') {
-        router.push(`/teacher/${userId}`)
+        router.push(`/user/${userId}`)
 
 
       } else {
-        router.push(`/srudent/${userId}`)
+        router.push(`/user/${userId}`)
 
       }
     }
