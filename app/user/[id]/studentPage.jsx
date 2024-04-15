@@ -1,4 +1,3 @@
-import Characters from "@/components/ui/characters"
 import TeacherCard from "@/components/ui/teacher-card"
 
 
@@ -11,8 +10,9 @@ export default function StudentPage({ teachers }) {
 
       <div className="flex  justify-between items-center mb-8 ">
         <h1 className="text-4xl font-bold pb-2 ">Teachers </h1>
+
         <div className="flex gap-5 items-center">
-          <Characters />
+
           {/* <SearchBarz updateVids={updateVids} /> */}
           {/* <UploadButton /> */}
         </div>

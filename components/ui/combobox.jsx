@@ -24,43 +24,23 @@ import {
 } from "@/components/ui/popover"
 import { Avatar } from "./avatar"
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
+import { useCharactersContext } from "@/app/selectedCharacterCtx"
 
 
-const statuses = [
-  {
-    value: "naruto",
-    label: "Naruto",
-    img: "/characters/Naruto.jpeg"
-  },
-  {
-    value: "petergriffen",
-    label: "Peter Griffen",
-    img: "/characters/petergriffen.jpeg"
 
-  },
-
-]
-
-export function ComboBoxResponsive() {
+export function ComboBoxResponsive({ selectedCharacter, setSelectedCharacter: setSelectedCharacter }) {
   const [open, setOpen] = React.useState(false)
+
   const isDesktop = useMediaQuery("(min-width: 768px)")
-  const [selectedStatus, setSelectedStatus] = React.useState(
-    statuses[0]
-  )
 
 
-
-
-  console.log(selectedStatus.img)
-
-
-  let avatarFallback = selectedStatus?.label.slice(0, 2)
+  let avatarFallback = selectedCharacter?.label.slice(0, 2)
   if (isDesktop) {
     return (
       <Popover open={open} onOpenChange={setOpen} >
 
         <Avatar className="border-1 border-white mr-4">
-          <AvatarImage src={selectedStatus.img} className="flex items-center " />
+          <AvatarImage src={selectedCharacter.img} className="flex items-center " />
           <AvatarFallback className="flex items-center justify-center ">{avatarFallback}</AvatarFallback>
 
 
@@ -68,13 +48,13 @@ export function ComboBoxResponsive() {
         </Avatar >
         <PopoverTrigger asChild>
 
-          <Button variant="outline" className="w-[150px] justify-start">
-            {selectedStatus ? <>{selectedStatus.label}</> : <>Select Character</>}
+          <Button variant="outline" className="w-[150px] justify-start gluten-custom">
+            {selectedCharacter ? <>{selectedCharacter.label}</> : <>Select Character</>}
           </Button>
 
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0" align="start">
-          <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
+          <StatusList setOpen={setOpen} setSelectedCharacter={setSelectedCharacter} />
         </PopoverContent>
       </Popover >
     )
@@ -83,13 +63,13 @@ export function ComboBoxResponsive() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="w-[150px] justify-start">
-          {selectedStatus ? <>{selectedStatus.label}</> : <>Select Character</>}
+        <Button variant="outline" className="w-[150px] justify-start gluten-custom">
+          {selectedCharacter ? <>{selectedCharacter.label}</> : <>Select Character</>}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mt-4 border-t">
-          <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
+          <StatusList setOpen={setOpen} setSelectedCharacter={setSelectedCharacter} />
         </div>
       </DrawerContent>
     </Drawer>
@@ -98,21 +78,22 @@ export function ComboBoxResponsive() {
 
 function StatusList({
   setOpen,
-  setSelectedStatus,
+  setSelectedCharacter,
 }) {
+  const { characters } = useCharactersContext()
   return (
     <Command>
       <CommandInput placeholder="Search Characters..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
-          {statuses.map((status) => (
+          {characters.map((status) => (
             <CommandItem
               key={status.value}
               value={status.value}
               onSelect={(value) => {
-                setSelectedStatus(
-                  statuses.find((priority) => priority.value === value) || null
+                setSelectedCharacter(
+                  characters.find((priority) => priority.value === value) || null
                 )
                 setOpen(false)
               }}

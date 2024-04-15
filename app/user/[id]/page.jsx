@@ -1,17 +1,14 @@
 "use client";
-import { useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api"
 import { useUser } from "@clerk/nextjs";
 import UploadButton from "@/components/ui/upload-button";
-import FileCard from "@/components/ui/file-card";
 import Image from 'next/image';
 import { Loader2 } from 'lucide-react'
-import SearchBar from "@/components/ui/search-bar";
 import { useEffect, useState } from "react";
 import debounce from 'lodash.debounce';
 import TeacherHeader from "./TeacherHeader";
 import StudentPage from "./studentPage";
 import GuestPage from "./guestpage";
+import { useCharacterContext } from "@/app/selectedCharacterCtx";
 
 export async function getUsers() {
   try {
@@ -85,6 +82,7 @@ export default function Home({ params }) {
 
   const [userId, setUserId] = useState('')
   const [userRole, setUserRole] = useState('')
+  const { character, updateCharacter } = useCharacterContext();
 
   useEffect(() => {
     getUsers().then((res) => {
@@ -125,7 +123,8 @@ export default function Home({ params }) {
       file.title.toLowerCase().includes(query)
     );
   }
-  const isLoading = videos === undefined
+  const isLoading = videos === undefined || !isLoaded || !teachers || teachers.length == 0
+
 
 
 
@@ -158,18 +157,20 @@ export default function Home({ params }) {
         )}
 
 
+
+
+      {!isLoading && userType != "404" && userType == "guest" && userRole == "student" &&
+        <>
+
+          <GuestPage vids={videos} userType={userType} teacher={teachers.filter(teacher => teacher.id = params.id)} updateVids={updateVids} />
+
+        </>
+      }
       {!isLoading && isEmpty && userType != "student" &&
         (
           <EmptyPage userType={userType} />
         )}
 
-
-      {!isLoading && userType != "404" && userType != "student" &&
-        <>
-          <GuestPage vids={videos} userType={userType} />
-
-        </>
-      }
 
     </main>
   );

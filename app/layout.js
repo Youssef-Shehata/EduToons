@@ -5,6 +5,7 @@ import ConvexClientProvider from "./ConvexClientProvider";
 import Header from "@/components/ui/Header";
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
+import { CharacterContextProvider, CharactersContextProvider } from "./selectedCharacterCtx";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -47,9 +48,12 @@ export default function RootLayout({ children }) {
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <CharacterContextProvider >
+              <CharactersContextProvider>
+                {children}
+              </CharactersContextProvider>
+            </CharacterContextProvider >
             <Toaster />
-
           </ThemeProvider>
         </ConvexClientProvider>
 

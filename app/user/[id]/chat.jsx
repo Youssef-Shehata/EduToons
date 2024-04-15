@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { MessageCircleQuestion } from 'lucide-react';
 import { CircleX } from 'lucide-react';
 
-import { Volume2 } from 'lucide-react';
+import { Volume2, Loader2, LoaderCircle } from 'lucide-react';
 
 import {
   Form,
@@ -12,14 +12,11 @@ import {
   FormField,
   FormItem,
 } from "@/components/ui/form"
-import { useState, useEffect } from "react";
+import { useCharacterContext } from "@/app/selectedCharacterCtx";
 
 
-export default function Chat() {
-
-  const [isResponding, setIsResponding] = useState(false)
-  const [result, setResult] = useState('')
-  const [prompt, setPrompt] = useState('')
+export default function Chat({ result, setResult, isResponding, setIsResponding }) {
+  const { character } = useCharacterContext();
 
   const form = useForm({
     defaultValues: {
@@ -29,43 +26,68 @@ export default function Chat() {
 
 
 
-  //simulate delay 
-  useEffect(() => {
-
-    const timer = setTimeout(() => {
-      setResult(prompt)
-      setIsResponding(false)
-    }, 1000);
-
-    // Clean up the timer
-    return () => clearTimeout(timer);
-  }, [isResponding]);
-
-
 
 
   const reset = () => {
     form.reset()
+    setResult('')
   }
+
+
   async function onSubmit(values) {
+    let prompt = values.prompt.trim();
 
-    const prompt = values.prompt
-    if (!prompt || prompt == '') return
-    setPrompt('')
-    setResult("")
-    setIsResponding(true)
-    // callAPI
-    // setResult(res)
-    // setIsResponding(false)
+    if (!prompt) return;
 
 
+    prompt = `you are ${character.label} and you are responding to a 8 yearold asking the following question , keep your responses brief, funny and  dont add  'naruto:' before the response or anything like that , the question is : ${prompt}`
+    setResult("");
+    setIsResponding(true);
 
+    try {
+      const response = await fetch('http://localhost:3000/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
+      });
+
+      const data = await response.json();
+      const chunks = data.res.split('');
+      setIsResponding(false);
+
+      let index = 0;
+      const timer = setInterval(() => {
+        setResult(prevResult => prevResult + chunks[index]);
+
+
+        index++;
+        if (index === chunks.length - 1) {
+          clearInterval(timer);
+
+        }
+      }, 30);
+    } catch (error) {
+      console.error('Error:', error);
+      setIsResponding(false);
+    }
   }
   return (
-    <div className="absolute right-3 justify-between  top-24 bg-slate-600 rounded-3xl py-7 px-5 h-[720px] w-96 flex flex-col gap-3">
+    <div className="  flex justify-between  rounded-3xl py-7 pr-3   h-[950px] w-[800px] flex-col gap-3">
       <div className="flex flex-col gap-3">
         <div className="flex font-bold text-3xl justify-start gap-2 text-electro  items-center lemonada"> <MessageCircleQuestion /> Ask A Question!</div>
-        {result != '' && <div className="flex text-white text-xl items-center gap-2"> <Volume2 className='hover:cursor-pointer' size={24} strokeWidth={1.5} absoluteStrokeWidth />{result}</div>
+        {isResponding &&
+          <div className="h-[800px] w-full flex   justify-center items-center">
+            <Loader2 strokeWidth={0.75} color="#ffffff" absoluteStrokeWidth className="h-44 w-44 animate-spin" />
+
+          </div>
+        }
+        {result != "" && <div className="flex text-white text-xl items-start gap-2">
+          <div><Volume2 className='mt-2 hover:cursor-pointer' size={24} strokeWidth={1.5} absoluteStrokeWidth /></div>
+
+          <div className="transition-all overflow-scroll p-2">{result}</div>
+        </div>
         }
       </div>
 
