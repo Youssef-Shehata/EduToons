@@ -13,10 +13,12 @@ import {
   FormItem,
 } from "@/components/ui/form"
 import { useCharacterContext } from "@/app/selectedCharacterCtx";
+import { useState } from "react";
 
 
 export default function Chat({ result, setResult, isResponding, setIsResponding }) {
   const { character } = useCharacterContext();
+  const [res, setRes] = useState('')
 
   const form = useForm({
     defaultValues: {
@@ -54,6 +56,7 @@ export default function Chat({ result, setResult, isResponding, setIsResponding 
       });
 
       const data = await response.json();
+      setRes(data.res)
       const chunks = data.res.split('');
       setIsResponding(false);
 
@@ -73,6 +76,28 @@ export default function Chat({ result, setResult, isResponding, setIsResponding 
       setIsResponding(false);
     }
   }
+
+
+
+
+  const handlePlay = async () => {
+    console.log('requesting audio')
+
+    console.log(res)
+    console.log(character.value)
+
+    try {
+      const response = await fetch('http://localhost:3001/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ "gemeniRes": res, "character": character.value }),
+      });
+    } catch (e) {
+      console.log("error fetching audio : ", e)
+    }
+  }
   return (
     <div className="  flex justify-between  rounded-3xl py-7 pr-3   h-[950px] w-[800px] flex-col gap-3">
       <div className="flex flex-col gap-3">
@@ -84,7 +109,7 @@ export default function Chat({ result, setResult, isResponding, setIsResponding 
           </div>
         }
         {result != "" && <div className="flex text-white text-xl items-start gap-2">
-          <div><Volume2 className='mt-2 hover:cursor-pointer' size={24} strokeWidth={1.5} absoluteStrokeWidth /></div>
+          <div onClick={handlePlay}><Volume2 className='mt-2 hover:cursor-pointer' size={24} strokeWidth={1.5} absoluteStrokeWidth /></div>
 
           <div className="transition-all overflow-scroll p-2">{result}</div>
         </div>
