@@ -94,6 +94,16 @@ export default function Chat({ result, setResult, isResponding, setIsResponding 
         },
         body: JSON.stringify({ "gemeniRes": res, "character": character.value }),
       });
+
+
+      const data = await response.blob();
+      const audioElement = document.createElement('audio');
+      audioElement.src = URL.createObjectURL(data);
+      audioElement.play();
+      audioElement.addEventListener('ended', () => {
+        URL.revokeObjectURL(audioElement.src); // Revoke URL after playback
+      });
+
     } catch (e) {
       console.log("error fetching audio : ", e)
     }
