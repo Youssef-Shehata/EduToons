@@ -23,10 +23,10 @@ export default authMiddleware({
 
     // }
 
-    if (auth.sessionClaims?.metadata.role !== "student" && req.nextUrl.pathname.startsWith("/student")) {
-      return Response.redirect(new URL('/', req.url))
+    // if (auth.sessionClaims?.metadata.role !== "student" && req.nextUrl.pathname.startsWith("/student")) {
+    //   return Response.redirect(new URL('/', req.url))
 
-    }
+    // }
   },
 });
 
