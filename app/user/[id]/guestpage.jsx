@@ -30,15 +30,15 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
   console.log('conetxasc', character)
   return (
 
-    <div className="flex flex-col ">
+    <div className="flex flex-col  ">
 
       <div className="flex  w-full  justify-between items-center mb-8 ">
         <div className="flex items-center justify-between gap-10">
           <div className="flex text-4xl lemonada">{`${teacher[0].firstName}'s Videos`}</div>
 
-          <Sheet  >
+          <Sheet >
             <SheetTrigger asChild><Button >Ask a question ? </Button></ SheetTrigger>
-            <SheetContent side="right" className="w-[500px] ">
+            <SheetContent side="right" className="w-[500px] overflow-y-scroll ">
               <SheetHeader>
                 <SheetDescription className="flex justify-center items-center">
                   <Chat result={res} setResult={setRes} isResponding={isResponding} setIsResponding={setIsResponding} />
