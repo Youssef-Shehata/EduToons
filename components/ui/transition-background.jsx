@@ -80,8 +80,9 @@ const TransitioningBackground = () => {
             <div className='text-5xl text-slate-300  edu-qld'>Enlighten the world with your wisodm !</div>
             {/* <div className='text-5xl text-slate-300  edu-qld'>click this button and upload your first video!</div> */}
             <div className="relative p-5 " >
-              <Link href={`/user/${user.id}`} className=" text-6xl m-2 hover:m-0 transition-all hover:text-7xl flex justify-center gluten-custom border p-5 px-12 items-center rounded-full border-white " >Your Videos!</Link>
+              <Link href={`/user/${user.id}`} className=" text-6xl m-2 hover:m-0 transition-all hover:text-7xl flex justify-center gluten-custom border p-5 px-12  items-center rounded-full border-white " >Your Videos!</Link>
             </div>
+
           </>
         }
       </div>

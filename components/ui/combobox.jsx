@@ -38,19 +38,18 @@ export function ComboBoxResponsive({ selectedCharacter, setSelectedCharacter: se
   if (isDesktop) {
     return (
       <Popover open={open} onOpenChange={setOpen} >
-
-        <Avatar className="border-1 border-white mr-4">
-          <AvatarImage src={selectedCharacter.img} className="flex items-center " />
-          <AvatarFallback className="flex items-center justify-center ">{avatarFallback}</AvatarFallback>
-
-
-
-        </Avatar >
         <PopoverTrigger asChild>
 
-          <Button variant="outline" className="w-[150px] justify-start gluten-custom">
-            {selectedCharacter ? <>{selectedCharacter.label}</> : <>Select Character</>}
-          </Button>
+          {/* <Button variant="outline" className=" justify-start gluten-custom"> */}
+          {/* {selectedCharacter ? <>{selectedCharacter.label}</> : <>Select Character</>} */}
+          <Avatar className="mr-4 w-fill h-fill">
+            <AvatarImage src={selectedCharacter.img} className="flex items-center hover:cursor-pointer " />
+            <AvatarFallback className="flex items-center justify-center ">{avatarFallback}</AvatarFallback>
+
+
+
+          </Avatar >
+          {/* </Button> */}
 
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0" align="start">
@@ -80,6 +79,7 @@ function StatusList({
   setOpen,
   setSelectedCharacter,
 }) {
+
   const { characters } = useCharactersContext()
   return (
     <Command>
@@ -88,6 +88,7 @@ function StatusList({
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
           {characters.map((status) => (
+
             <CommandItem
               key={status.value}
               value={status.value}
@@ -97,8 +98,16 @@ function StatusList({
                 )
                 setOpen(false)
               }}
+              className='flex items-center gluten-custom text-base'
 
             >
+              <Avatar className="border-1 border-white mr-4 w-fill h-fill">
+                <AvatarImage src={status.img} className="flex items-center " />
+                <AvatarFallback className="flex items-center justify-center ">{status.label.slice(0, 2)}</AvatarFallback>
+
+
+
+              </Avatar >
               {status.label}
             </CommandItem>
           ))}
