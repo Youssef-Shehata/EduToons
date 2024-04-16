@@ -87,12 +87,12 @@ export default function Chat({ result, setResult, isResponding, setIsResponding 
     console.log(character.value)
 
     try {
-      const response = await fetch('http://localhost:3001/chat', {
+      const response = await fetch('http://localhost:8000/api', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ "gemeniRes": res, "character": character.value }),
+        body: JSON.stringify({ "giminiresponse": res, "voiceactor": character.value }),
       });
 
 

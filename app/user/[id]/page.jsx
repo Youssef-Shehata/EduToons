@@ -9,6 +9,8 @@ import TeacherHeader from "./TeacherHeader";
 import StudentPage from "./studentPage";
 import GuestPage from "./guestpage";
 import { useCharacterContext } from "@/app/selectedCharacterCtx";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export async function getUsers() {
   try {
@@ -113,8 +115,8 @@ export default function Home({ params }) {
   const updateVids = debounce((q) => {
     setQuery(q.toString().toLowerCase().trim())
   }, 500); // delay function call for 500ms
-  let videos = []
-  // let videos = useQuery(api.videos.listVideos, { "userId": params.id, })
+  // let videos = []
+  let videos = useQuery(api.videos.listVideos, { "userId": params.id })
   const isEmpty = videos?.length === 0
 
   if (query?.length > 0) {
