@@ -15,7 +15,8 @@ export const createVideo = mutation({
     storageId: v.id("_storage"),
     title: v.string(),
     userId: v.string(),
-    description: v.string()
+    description: v.string(),
+    character: v.string(),
   },
   handler: async (ctx, args) => {
     // throw new Error('u aint got acces ma dawg');
@@ -28,6 +29,8 @@ export const createVideo = mutation({
       userId: args.userId,
       title: args.title,
       description: args.description,
+      character: args.character,
+
 
     }).then(res => {
       console.log('success', res)
@@ -70,6 +73,16 @@ export const listVideos = query({
 }
 
 )
+
+export const getVideoDowloadUrl = query({
+  args: {
+    id: v.id("videos"),
+  },
+  async handler(ctx, args) {
+    return await ctx.storage.getUrl(args.id)
+  }
+})
+
 
 
 export const deleteVideo = mutation({

@@ -27,12 +27,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
-  title: z.string().min(1).max(10),
+  title: z.string().min(1).max(20),
   description: z.string().min(1).max(30).optional(),
   // topics: new z.ZodArray().optional(),
   video: z.custom((val) => val instanceof FileList, "Required")
     .refine((files) => files.length > 0, "Required"),
-
+  character: z.string()
 })
 
 export default function UploadButton({ size }) {
@@ -54,6 +54,7 @@ export default function UploadButton({ size }) {
       title: "",
       description: "",
       video: undefined,
+      character: ''
 
       // topics: [],
 
@@ -74,18 +75,36 @@ export default function UploadButton({ size }) {
     const { storageId } = await result.json();
 
 
+
     try {
       await createVid({
         storageId: storageId,
         userId: userId,
         title: values.title,
         description: values.description,
-      }).then(() => {
-        toast({
-          variant: "success",
-          title: "File Uploaded",
-          description: values.title,
-        })
+        character: "teacher"
+      }).then(async () => {
+        try {
+          fetch('localhost:3002/api/video', {
+            method: "POST",
+            headers: { "Content-Type": "video/mp4" },
+            body: values.video[0],
+          }).then((res) => {
+            toast({
+              variant: "success",
+              title: "File Uploaded",
+              description: values.title,
+            })
+            const { result } = res.json();
+            console.log(result)
+          });
+
+
+        } catch (e) {
+          console.log('error uploading to server ')
+        }
+
+
       });
       form.reset();
       setDialogOpen(false);
@@ -98,6 +117,9 @@ export default function UploadButton({ size }) {
         description: `couldnt upload ${values.title}`
       })
     }
+
+
+
   }
 
   return (

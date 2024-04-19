@@ -27,7 +27,11 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
   const [res, setRes] = useState('')
   const [isResponding, setIsResponding] = useState(false)
   const { character, updateCharacter } = useCharacterContext();
+
   console.log('conetxasc', character)
+  vids = vids.filter(vid => {
+    return vid.character == character
+  })
   return (
 
     <div className="flex flex-col  ">
