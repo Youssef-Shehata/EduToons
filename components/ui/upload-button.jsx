@@ -85,7 +85,7 @@ export default function UploadButton({ size }) {
         character: "teacher"
       }).then(async () => {
         try {
-          fetch('localhost:3002/api/video', {
+          fetch('http://localhost:3002/api/video', {
             method: "POST",
             headers: { "Content-Type": "video/mp4" },
             body: values.video[0],
