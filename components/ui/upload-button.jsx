@@ -76,6 +76,10 @@ export default function UploadButton({ size }) {
 
 
 
+    //foro python server 
+    const formData = new FormData();
+    formData.append('video', values.video[0]);
+
     try {
       await createVid({
         storageId: storageId,
@@ -88,7 +92,7 @@ export default function UploadButton({ size }) {
           fetch('http://localhost:3002/api/uploadvideo', {
             method: "POST",
             headers: { "Content-Type": "video/mp4" },
-            body: values.video[0],
+            body: formData,
           }).then((res) => {
             toast({
               variant: "success",
