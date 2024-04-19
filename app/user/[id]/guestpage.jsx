@@ -30,6 +30,7 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
 
   console.log('conetxasc', character)
   vids = vids.filter(vid => {
+    console.log(vid.title)
     return vid.character == character
   })
   return (
