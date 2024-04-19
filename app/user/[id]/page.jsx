@@ -161,7 +161,7 @@ export default function Home({ params }) {
 
 
 
-      {!isLoading && userType != "404" && userType == "guest" && userRole == "student" &&
+      {!isLoading && userType != "404" && (userType == "guest" || userType == "teacher") &&
         <>
 
           <GuestPage vids={videos} userType={userType} teacher={teachers.filter(teacher => teacher.id = params.id)} updateVids={updateVids} />

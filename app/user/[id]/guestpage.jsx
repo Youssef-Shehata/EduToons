@@ -32,7 +32,7 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
 
     <div className="flex flex-col  ">
 
-      <div className="flex  w-full  justify-between items-center mb-8 ">
+      {userType == "guest" && < div className="flex  w-full  justify-between items-center mb-8 ">
         <div className="flex items-center justify-between gap-10">
           <div className="flex text-4xl lemonada">{`${teacher[0].firstName}'s Videos`}</div>
 
@@ -51,14 +51,14 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
 
         </div>
 
-        <div className="flex flex-row gap-5">
+        {userType == 'guest' && <div className="flex flex-row gap-5">
           <ComboBoxResponsive selectedCharacter={character} setSelectedCharacter={updateCharacter} />
 
           <SearchBar updateVids={updateVids} />
 
-        </div>
+        </div>}
 
-      </div>
+      </div>}
 
       <div className="grid grid-cols-3 gap-2 ">
         {vids?.map(vid => {
@@ -66,6 +66,6 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
         })
         }
       </div>
-    </div>
+    </div >
   )
 }
