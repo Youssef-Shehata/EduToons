@@ -29,10 +29,17 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
   const { character, updateCharacter } = useCharacterContext();
 
   console.log('conetxasc', character)
-  vids = vids.filter(vid => {
-    console.log(vid.title)
+
+  const teacherVids = vids.filter(vid => {
+    console.log("guest page", vid.title)
+    return vid.character == 'teacher'
+  })
+
+  const studentVids = vids.filter(vid => {
+    console.log("guest page", vid.title)
     return vid.character == character
   })
+
   return (
 
     <div className="flex flex-col  ">
@@ -66,7 +73,12 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
       </div>}
 
       <div className="grid grid-cols-3 gap-2 ">
-        {vids?.map(vid => {
+        {userType == "teacher" && teacherVids?.map(vid => {
+          return (<FileCard key={vid.id} vid={vid} userType={userType} />)
+        })
+        }
+
+        {userType != 'teacher' && studentVids?.map(vid => {
           return (<FileCard key={vid.id} vid={vid} userType={userType} />)
         })
         }
