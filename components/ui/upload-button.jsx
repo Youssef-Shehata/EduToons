@@ -73,12 +73,12 @@ export default function UploadButton({ size }) {
       body: values.video[0],
     });
     const { storageId } = await result.json();
+    const VideoData = {
+      "userId": userId,
+      "title": values.title,
+      "description": values.description
+    }
 
-
-
-    //foro python server 
-    const formData = new FormData();
-    formData.append('video', values.video[0]);
 
     try {
       await createVid({
@@ -89,19 +89,25 @@ export default function UploadButton({ size }) {
         character: "teacher"
       }).then(async () => {
         try {
-          fetch('http://localhost:3002/api/uploadvideo', {
-            method: "POST",
-            headers: { "Content-Type": "video/mp4" },
-            body: formData,
-          }).then((res) => {
-            toast({
-              variant: "success",
-              title: "File Uploaded",
-              description: values.title,
-            })
-            const { result } = res.json();
-            console.log(result)
-          });
+        const formData = new FormData();
+        formData.append('video', values.video[0]);
+        formData.append('VideoData',JSON.stringify(VideoData));
+        const uploadResponse = await fetch('http://localhost:8000/api', {
+          method: "POST",
+          body: formData,
+        }).then((res) => {
+          toast({
+            variant: "success",
+            title: "File Uploaded",
+            description: values.title,
+          });})
+
+      if (!uploadResponse.ok) {
+        throw new Error('Server upload failed with status: ' + uploadResponse.status);
+      }
+
+      const uploadResult = await uploadResponse.json();
+      console.log('Upload result:', uploadResult);
 
 
         } catch (e) {
