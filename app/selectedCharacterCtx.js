@@ -28,6 +28,11 @@ const data = [
     value: "luigi",
     label: "Luigi",
     img: "/characters/luigi.jpeg"
+  },
+  {
+    value: "miraculous",
+    label: "Miraculous",
+    img: "/characters/miraculous.jpeg"
   }
 ];
 

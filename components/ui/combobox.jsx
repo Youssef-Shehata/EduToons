@@ -42,8 +42,8 @@ export function ComboBoxResponsive({ selectedCharacter, setSelectedCharacter: se
 
           {/* <Button variant="outline" className=" justify-start gluten-custom"> */}
           {/* {selectedCharacter ? <>{selectedCharacter.label}</> : <>Select Character</>} */}
-          <Avatar className="mr-4 w-fill h-fill">
-            <AvatarImage src={selectedCharacter.img} className="flex items-center hover:cursor-pointer " />
+          <Avatar className="mr-4 w-fill h-fill justify-center items-center">
+            <AvatarImage src={selectedCharacter.img} className="flex items-center justify-self-center hover:cursor-pointer " />
             <AvatarFallback className="flex items-center justify-center ">{avatarFallback}</AvatarFallback>
 
 
@@ -101,8 +101,8 @@ function StatusList({
               className='flex items-center gluten-custom text-base'
 
             >
-              <Avatar className="border-1 border-white mr-4 w-fill h-fill">
-                <AvatarImage src={status.img} className="flex items-center " />
+              <Avatar className="border-1 border-white flex items-stretch justify-center mr-4 w-fill h-fill">
+                <AvatarImage src={status.img} className="flex items-center justify-center " />
                 <AvatarFallback className="flex items-center justify-center ">{status.label.slice(0, 2)}</AvatarFallback>
 
 
