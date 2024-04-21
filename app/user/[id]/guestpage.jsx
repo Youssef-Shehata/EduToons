@@ -37,7 +37,7 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
 
   const studentVids = vids.filter(vid => {
     console.log("guest page", vid.title)
-    return vid.character == character
+    return vid.character == character.value
   })
 
   return (
@@ -82,7 +82,21 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
           return (<FileCard key={vid.id} vid={vid} userType={userType} />)
         })
         }
+
+
       </div>
+      {userType != 'teacher' && studentVids.length == 0 && (
+        <div className="flex justify-center items-center flex-col h-full w-full">
+          <img src="/nocontent.svg" width={800} alt="empty" />
+          <p className="text-3xl p-3 pb-1">This Character isn't available yet in our videos ,
+          </p>
+          <p className="text-3xl p-3">
+            But feel free to ask it whatever questions you want !
+          </p>
+        </div>
+      )
+
+      }
     </div >
   )
 }
