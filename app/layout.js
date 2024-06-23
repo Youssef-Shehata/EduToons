@@ -6,6 +6,7 @@ import Header from "@/components/ui/Header";
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { CharacterContextProvider, CharactersContextProvider } from "./selectedCharacterCtx";
+import { UserContextProvider } from "./currentUserCtx";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -41,7 +42,6 @@ export default function RootLayout({ children }) {
 
         <ConvexClientProvider>
 
-          <Header />
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -50,7 +50,11 @@ export default function RootLayout({ children }) {
           >
             <CharacterContextProvider >
               <CharactersContextProvider>
-                {children}
+                <UserContextProvider>
+
+
+                  {children}
+                </UserContextProvider>
               </CharactersContextProvider>
             </CharacterContextProvider >
             <Toaster />

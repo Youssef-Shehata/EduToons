@@ -61,6 +61,8 @@ export function CharacterContextProvider({ children }) {
   );
 }
 
+
+
 export function CharactersContextProvider({ children }) {
   const [characters, setCharacters] = useState(data);
 
