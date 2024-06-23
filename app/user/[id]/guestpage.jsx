@@ -29,7 +29,8 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
   const { character, updateCharacter } = useCharacterContext();
 
   console.log('conetxasc', character)
-
+  let empty = false 
+  if (vids.length == 0) empty = true
   const teacherVids = vids.filter(vid => {
     console.log("guest page", vid.title)
     return vid.character == 'teacher'
@@ -37,6 +38,7 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
 
   const studentVids = vids.filter(vid => {
     console.log("guest page", vid.title)
+    console.log(character.value)
     return vid.character == character.value
   })
 
@@ -85,7 +87,7 @@ export default function GuestPage({ vids, userType, teacher, updateVids }) {
 
 
       </div>
-      {userType != 'teacher' && studentVids.length == 0 && (
+      {userType != 'teacher' && studentVids.length == 0 && empty==false &&(
         <div className="flex justify-center items-center flex-col h-full w-full">
           <img src="/nocontent.svg" width={800} alt="empty" />
           <p className="text-3xl p-3 pb-1">This Character isn't available yet in our videos ,

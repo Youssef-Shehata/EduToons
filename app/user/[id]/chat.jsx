@@ -42,7 +42,7 @@ export default function Chat({ result, setResult, isResponding, setIsResponding 
     if (!prompt) return;
 
 
-    prompt = `you are ${character.label} and you are responding to a 8 yearold asking the following question , keep your responses brief, funny and  dont add  'naruto:' before the response or anything like that , the question is : ${prompt}`
+    prompt = `you are ${character.label} and you are responding to a 8 yearold asking the following question , keep your responses brief, funny and  dont add  'naruto:' before the response or anything like that, and respond in the questions language , the question is : ${prompt}`
     setResult("");
     setIsResponding(true);
 

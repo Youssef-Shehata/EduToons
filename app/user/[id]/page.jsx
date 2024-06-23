@@ -88,7 +88,7 @@ export default function Home({ params }) {
 
   useEffect(() => {
     getUsers().then((res) => {
-      setTeachersIds(res.teacherIds)
+      setTeachersIds(res?.teacherIds)
       setTeachers(res.teachers)
     })
     setUserId(user?.id)
@@ -98,7 +98,7 @@ export default function Home({ params }) {
 
   let userType = ''
   console.log(teacherIds)
-  if (userId != params.id && !teacherIds.includes(params.id)) userType = "404"
+  if (userId != params.id && !teacherIds?.includes(params.id)) userType = "404"
   else if (userId == params.id && userRole == "teacher") userType = "teacher"
   else if (userId == params.id && userRole == "student") userType = "student"
   else if (userId != params.id) userType = "guest"

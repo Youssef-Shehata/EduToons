@@ -20,10 +20,10 @@ export const createVideo = mutation({
   },
   handler: async (ctx, args) => {
     // throw new Error('u aint got acces ma dawg');
-    const identity = await ctx.auth.getUserIdentity();
-    console.log(args)
-    if (identity) console.log(identity)
-    if (!identity) { throw new ConvexError("you must be logged in") }
+    // const identity = await ctx.auth.getUserIdentity();
+    // console.log(args)
+    // if (identity) console.log(identity)
+    // if (!identity) { throw new ConvexError("you must be logged in") }
     await ctx.db.insert("videos", {
       id: args.storageId,
       userId: args.userId,

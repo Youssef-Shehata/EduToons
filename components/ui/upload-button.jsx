@@ -116,8 +116,7 @@ export default function UploadButton({ size }) {
 
 
       });
-      form.reset();
-      setDialogOpen(false);
+      
     } catch (e) {
       setDialogOpen(false)
       form.reset();
