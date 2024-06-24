@@ -15,18 +15,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useState } from "react";
-import { useMutation } from 'convex/react'
-import { api } from "@/convex/_generated/api";
 import { useToast } from "./use-toast";
-import { fileTypes } from "@/convex/schema";
 
 
 
 export default function FileActions({ vid, userType }) {
-  const deleteVideo = useMutation(api.videos.deleteVideo)
+  const deleteVideo = () => false
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const { toast } = useToast()
   return (

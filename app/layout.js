@@ -1,8 +1,6 @@
 import "./globals.css";
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
-import ConvexClientProvider from "./ConvexClientProvider";
-import Header from "@/components/ui/Header";
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { CharacterContextProvider, CharactersContextProvider } from "./selectedCharacterCtx";
@@ -40,26 +38,24 @@ export default function RootLayout({ children }) {
         )}
       >
 
-        <ConvexClientProvider>
 
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <CharacterContextProvider >
-              <CharactersContextProvider>
-                <UserContextProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <CharacterContextProvider >
+            <CharactersContextProvider>
+              <UserContextProvider>
 
 
-                  {children}
-                </UserContextProvider>
-              </CharactersContextProvider>
-            </CharacterContextProvider >
-            <Toaster />
-          </ThemeProvider>
-        </ConvexClientProvider>
+                {children}
+              </UserContextProvider>
+            </CharactersContextProvider>
+          </CharacterContextProvider >
+          <Toaster />
+        </ThemeProvider>
 
       </body>
     </html>

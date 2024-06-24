@@ -1,11 +1,8 @@
 "use client";
-import UploadButton from "@/components/ui/upload-button";
-import Image from 'next/image';
 import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from "react";
 import debounce from 'lodash.debounce';
 import StudentPage from "./studentPage";
-import GuestPage from "./guestpage";
 import { useCharacterContext } from "@/app/selectedCharacterCtx";
 import { getStudentById, getTeachers, getVideosByTeacher } from "@/app/mockData";
 

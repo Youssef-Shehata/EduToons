@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/drawer"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Header from "@/components/ui/Header";
-import WelcomePage from "./welcome-page";
 import { useUserContext } from "./currentUserCtx";
 import { getStudentById, getTeacherById } from "./mockData";
 import { useEffect } from "react";
+import WelcomePage from "@/components/ui/welcome-page";
 
 
 const backend = [
@@ -86,7 +86,7 @@ export default function Home() {
   const { user, updateUser } = useUserContext();
   useEffect(() => {
 
-    getStudentById("1").then(res => {
+    getTeacherById("3mReda").then(res => {
       console.log("user :", res)
       updateUser(res)
     }

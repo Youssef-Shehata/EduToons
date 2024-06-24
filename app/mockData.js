@@ -3,11 +3,44 @@
 
 
 
+const users = [
+  {
+    id: '1',
+    name: "sha7toot el naw",
+    email: "sh7tt@gmail.com",
+    password: "1234",
+    role: "student",
+  },
+  {
+    id: '2',
+    name: "ashraf",
+    email: "zodiack@gmail.com",
+    password: "1234",
+    role: "student",
+  },
+  {
+    id: "3mReda",
+    name: "yousef",
+    email: "elfarouq@gmail.com",
+    password: "1234",
+    role: "teacher",
+  },
+  {
+    id: "ElGyar",
+    name: "reda el farouq",
+    email: "enzlyamdl3@gmail.com",
+    password: "1234",
+    role: "teacher",
+  },
+]
+
 
 const students = [
   {
     id: '1',
     name: "sha7toot el naw",
+    email: "sh7tt@gmail.com",
+    password: "1234",
     followedTeachersIds: ["3mReda"],
     role: "student",
   },
@@ -104,7 +137,30 @@ const getTeacherById = (id) => {
   return Promise.resolve(teacher[0])
 }
 
+
+const logIn = (user) => {
+  let foundUsers = users.filter(u => {
+    return user.email === u.email && user.password === u.password
+  })
+
+
+  if (foundUsers.length == 0) return Promise.reject("User Not Found")
+  let currentUser = foundUsers[0]
+  if (currentUser.role === "student") {
+    currentUser = students.find(student => student.id = currentUser.id)
+
+    return Promise.resolve(currentUser)
+  }
+
+
+  if (currentUser.role === "teacher") {
+    currentUser = teachers.find(teacher => teacher.id = currentUser.id)
+
+    return Promise.resolve(currentUser)
+  }
+}
 export {
+  logIn,
   getTeacherById,
   getStudentById,
   getTeachers,

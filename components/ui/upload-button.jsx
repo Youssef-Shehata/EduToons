@@ -1,8 +1,5 @@
 "use client";
-import { useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api"
 import { Button } from "@/components/ui/button";
-import { useUser } from "@clerk/nextjs";
 import {
   Dialog,
   DialogContent,
@@ -25,6 +22,7 @@ import { z } from "zod"
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
+import { useUserContext } from "@/app/currentUserCtx";
 
 const formSchema = z.object({
   title: z.string().min(1).max(20),
@@ -36,16 +34,13 @@ const formSchema = z.object({
 })
 
 export default function UploadButton({ size }) {
-  const { user, isLoaded, isSignedIn } = useUser()
   const { toast } = useToast()
-
+  const { user, updateUser } = useUserContext()
   const [dialogOpen, setDialogOpen] = useState(false)
-  let userId = undefined
-  if (isLoaded && isSignedIn) {
-    userId = user.id
-  }
-  const generateUploadUrl = useMutation(api.videos.generateUploadUrl);
-  const createVid = useMutation(api.videos.createVideo)
+  let userId = user.id
+
+  const generateUploadUrl = () => false
+  const createVid = () => false
 
 
   const form = useForm({
@@ -89,25 +84,26 @@ export default function UploadButton({ size }) {
         character: "teacher"
       }).then(async () => {
         try {
-        const formData = new FormData();
-        formData.append('video', values.video[0]);
-        formData.append('VideoData',JSON.stringify(VideoData));
-        const uploadResponse = await fetch('http://localhost:8000/api', {
-          method: "POST",
-          body: formData,
-        }).then((res) => {
-          toast({
-            variant: "success",
-            title: "File Uploaded",
-            description: values.title,
-          });})
+          const formData = new FormData();
+          formData.append('video', values.video[0]);
+          formData.append('VideoData', JSON.stringify(VideoData));
+          const uploadResponse = await fetch('http://localhost:8000/api', {
+            method: "POST",
+            body: formData,
+          }).then((res) => {
+            toast({
+              variant: "success",
+              title: "File Uploaded",
+              description: values.title,
+            });
+          })
 
-      if (!uploadResponse.ok) {
-        throw new Error('Server upload failed with status: ' + uploadResponse.status);
-      }
+          if (!uploadResponse.ok) {
+            throw new Error('Server upload failed with status: ' + uploadResponse.status);
+          }
 
-      const uploadResult = await uploadResponse.json();
-      console.log('Upload result:', uploadResult);
+          const uploadResult = await uploadResponse.json();
+          console.log('Upload result:', uploadResult);
 
 
         } catch (e) {
@@ -174,21 +170,6 @@ export default function UploadButton({ size }) {
                     </FormItem>
                   )}
                 />
-
-                {/* <FormField
-                      control={form.control}
-                      name="topics"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input placeholder="Topics" {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
- */}
                 <FormField
                   control={form.control}
                   name="video"
@@ -204,9 +185,6 @@ export default function UploadButton({ size }) {
                     </FormItem>
                   )}
                 />
-
-
-
                 <Button
                   disabled={form.formState.isSubmitting}
                   className="justify-self-end flex gap-1 "

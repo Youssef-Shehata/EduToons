@@ -1,14 +1,16 @@
 import React from 'react'
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 
 const WelcomePage = ({ user }) => {
-  let isSignedIn = true
+  let isSignedIn = false
   console.log(user)
+  if (!isSignedIn) redirect('/signIn')
 
   return (
     <><div className='text-8xl gluten-custom m-2'>Welcome to EduToons</div>
-      {!isSignedIn &&
+      {/* {!isSignedIn &&
         <>
           <div className='text-5xl text-slate-300 edu-qld'>where learning is no longer boring,</div>
           <div className='text-5xl text-slate-300  edu-qld'>SignUp to start your journey!</div>
@@ -22,7 +24,13 @@ const WelcomePage = ({ user }) => {
           </div>
           <SignUpButton className="w-32 h-14 text-xl  z-10 bg-redish p-2 rounded-r-full hover:text-2xl transition-all  " mode="modal" redirectUrl="/role" />
         </div>
-      }
+      } */}
+
+
+
+
+
+
 
 
       {isSignedIn && user?.role == 'student' &&
