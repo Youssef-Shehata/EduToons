@@ -11,6 +11,23 @@ import { useUserContext } from "@/app/currentUserCtx";
 
 
 
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { Button } from "@/components/ui/button";
+import { ComboBoxResponsive } from "@/components/ui/combobox";
+import { useCharacterContext } from "@/app/selectedCharacterCtx";
+import Chat from "./chat";
+
+
+
+
+
+
 
 const page = ({ params }) => {
 
@@ -18,13 +35,20 @@ const page = ({ params }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isEmpty, setIsEmpty] = useState(false);
   const { user, updateUser } = useUserContext();
+  const [isResponding, setIsResponding] = useState(false)
+  const [res, setRes] = useState('')
+
+
+  const { character, updateCharacter } = useCharacterContext();
 
 
   const [videos, setVideos] = useState([])
 
   let currentTeacherId = params.id
   let visitor = params.id == user.id ? false : true
+  console.log(user.id)
   let userType = visitor == true ? "student" : "teacher"
+
   //fetching this teachers videos :
   useEffect(() => {
     getVideosByTeacher(currentTeacherId).then(res => {
@@ -73,7 +97,7 @@ const page = ({ params }) => {
 
       {!visitor &&
         <div className="flex  justify-between items-center mb-8 ">
-          <h1 className="text-4xl font-bold pb-2 ">Your Videos </h1>
+          <h1 className="font-bold pb-2 text-6xl lemonada ">Your Videos </h1>
           <div className="flex gap-5 items-center">
             <SearchBar updateVids={updateVids} />
             <UploadButton />
@@ -83,9 +107,23 @@ const page = ({ params }) => {
       }
       {visitor &&
         <div className="flex  justify-between items-center mb-8 ">
-          <h1 className="text-4xl font-bold pb-2 "> Videos </h1>
-          <div className="flex gap-5 items-center">
+          <div className="flex gap-4 items-center" >
+            <h1 className="font-bold pb-2 text-6xl lemonada"> Videos </h1>
+            <Sheet >
+              <SheetTrigger asChild><Button >Ask a question ? </Button></ SheetTrigger>
+              <SheetContent side="right" className="w-[500px] overflow-y-scroll ">
+                <SheetHeader>
+                  <SheetDescription className="flex justify-center items-center">
+                    <Chat result={res} setResult={setRes} isResponding={isResponding} setIsResponding={setIsResponding} />
+                  </SheetDescription>
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
+
+          </div>
+          <div className="flex gap-14 items-center">
             <SearchBar updateVids={updateVids} />
+            <ComboBoxResponsive selectedCharacter={character} setSelectedCharacter={updateCharacter} />
           </div>
         </div>
 
