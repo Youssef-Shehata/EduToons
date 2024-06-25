@@ -14,7 +14,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 export async function POST(req) {
   let { prompt } = await req.json();
   if (!prompt || prompt === '') {
-    return new Response(JSON.stringify({ message: 'Error creating role' }), {
+    return new Response(JSON.stringify({ message: 'Error sending message' }), {
       status: 400,
     })
   }

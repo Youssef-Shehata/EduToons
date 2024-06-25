@@ -10,11 +10,8 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import Header from "@/components/ui/Header";
-import { useUserContext } from "./currentUserCtx";
-import { getStudentById, getTeacherById } from "./mockData";
-import { useEffect } from "react";
 import WelcomePage from "@/components/ui/welcome-page";
+import { useUserContext } from "./currentUserCtx";
 
 
 const backend = [
@@ -83,24 +80,12 @@ function Team({ team, name }) {
 
 export default function Home() {
   //To-DO: implement Your Auth  
-  const { user, updateUser } = useUserContext();
-  useEffect(() => {
 
-    getTeacherById("3mReda").then(res => {
-      console.log("user :", res)
-      updateUser(res)
-    }
-
-    )
-
-
-  }, [])
+  const { user, updateUser } = useUserContext()
 
   return (
     <div className="relative h-screen ">
-
       <TransitioningBackground >
-
         <WelcomePage user={user} />
         <div className='absolute bottom-1 bg-none flex items-end justify-center p-2 px-6 hover:cursor-pointer   '>
           <Drawer >
@@ -120,12 +105,6 @@ export default function Home() {
                 <Team team={Audio} name='Audio' />
                 <Team team={Video} name='Video' />
                 <Team team={AiEngs} name='AI Engineers' />
-
-
-
-
-
-
               </DrawerFooter>
             </DrawerContent>
           </Drawer>

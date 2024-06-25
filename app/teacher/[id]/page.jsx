@@ -1,53 +1,41 @@
 "use client";
 import UploadButton from "@/components/ui/upload-button";
 import Image from 'next/image';
-import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from "react";
 import debounce from 'lodash.debounce';
 import SearchBar from "@/components/ui/search-bar";
 import { getVideosByTeacher } from "@/app/mockData";
 import FileCard from "@/components/ui/file-card";
-import { useUserContext } from "@/app/currentUserCtx";
-
-
-
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { Button } from "@/components/ui/button";
 import { ComboBoxResponsive } from "@/components/ui/combobox";
 import { useCharacterContext } from "@/app/selectedCharacterCtx";
-import Chat from "./chat";
-
-
-
-
-
-
+import { useUserContext } from "@/app/currentUserCtx";
+import { redirect } from "next/navigation";
+import AskQuestion from "./ask-question";
+import { Loader2 } from "lucide-react";
 
 const page = ({ params }) => {
 
-  const [query, setQuery] = useState('')
   const [isLoading, setIsLoading] = useState(true);
   const [isEmpty, setIsEmpty] = useState(false);
-  const { user, updateUser } = useUserContext();
-  const [isResponding, setIsResponding] = useState(false)
+  const [videos, setVideos] = useState([])
+
+
+  const [query, setQuery] = useState('')
+
+
   const [res, setRes] = useState('')
+  const [isResponding, setIsResponding] = useState(false)
 
 
   const { character, updateCharacter } = useCharacterContext();
+  const { user, updateUser } = useUserContext()
 
 
-  const [videos, setVideos] = useState([])
 
-  let currentTeacherId = params.id
-  let visitor = params.id == user.id ? false : true
-  console.log(user.id)
-  let userType = visitor == true ? "student" : "teacher"
+  let currentTeacherId = user.id;
+  let userType = user.role;
+  let visitor = params.id == currentTeacherId ? false : true
+  if (userType == 'teacher' && visitor) redirect(`/teacher/${user.id}`)
 
   //fetching this teachers videos :
   useEffect(() => {
@@ -62,8 +50,10 @@ const page = ({ params }) => {
       setIsLoading(false)
     })
   }, [])
-  //Searching Logic :
 
+
+
+  //Searching Logic :
   const updateVids = debounce((q) => {
     setQuery(q.toString().toLowerCase().trim())
   }, 500);
@@ -75,7 +65,6 @@ const page = ({ params }) => {
     );
     setVideos(newVids)
   }
-
   // Searching Logic 
 
 
@@ -107,24 +96,16 @@ const page = ({ params }) => {
       }
       {visitor &&
         <div className="flex  justify-between items-center mb-8 ">
-          <div className="flex gap-4 items-center" >
-            <h1 className="font-bold pb-2 text-6xl lemonada"> Videos </h1>
-            <Sheet >
-              <SheetTrigger asChild><Button >Ask a question ? </Button></ SheetTrigger>
-              <SheetContent side="right" className="w-[500px] overflow-y-scroll ">
-                <SheetHeader>
-                  <SheetDescription className="flex justify-center items-center">
-                    <Chat result={res} setResult={setRes} isResponding={isResponding} setIsResponding={setIsResponding} />
-                  </SheetDescription>
-                </SheetHeader>
-              </SheetContent>
-            </Sheet>
+          <h1 className="font-bold pb-2 text-6xl lemonada"> Videos </h1>
+
+          <SearchBar updateVids={updateVids} />
+
+          <div className="flex gap-1 items-center">
+            <ComboBoxResponsive selectedCharacter={character} setSelectedCharacter={updateCharacter} />
+            <AskQuestion res={res} setRes={setRes} isResponding={isResponding} setIsResponding={setIsResponding} />
 
           </div>
-          <div className="flex gap-14 items-center">
-            <SearchBar updateVids={updateVids} />
-            <ComboBoxResponsive selectedCharacter={character} setSelectedCharacter={updateCharacter} />
-          </div>
+
         </div>
 
       }

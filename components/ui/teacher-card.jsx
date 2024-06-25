@@ -15,10 +15,10 @@ export default function TeacherCard({ teacher }) {
 
   return (
 
-    <Card className="cursor-pointer rounded-full border-0 flex justify-center items-center flex-col" >
+    <Card className="cursor-pointer rounded-full border-transparent flex justify-center items-center flex-col" >
 
       <CardContent className=" flex justify-center items-center">
-        <Image src={teacher.img} width={300} height={300} className="rounded-full" alt="teacher image" onClick={() => router.push(`/teacher/${teacher.id}`)} />
+        <Image src={teacher.img} width={250} height={250} className="rounded-full border-0" alt="teacher image" onClick={() => router.push(`/teacher/${teacher.id}`)} />
       </CardContent>
       <CardHeader className=' '>
         <CardTitle>{teacher.name}</CardTitle>

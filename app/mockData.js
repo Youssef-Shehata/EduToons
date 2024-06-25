@@ -88,13 +88,29 @@ const teacherVideos = [
 ];
 const teachers = [
   {
-    id: "3mReda",
+    id: "elgyar",
     name: "yousef",
     img: "/teacher.jpeg",
     role: "teacher",
   },
   {
-    id: "ElGyar",
+    id: "3mreda",
+    name: "reda el farouq",
+    img: "/squidward.jpeg",
+    role: "teacher",
+  },
+  {
+    id: "3mreda2",
+    name: "reda el farouq",
+    img: "/squidward.jpeg",
+    role: "teacher",
+  }, {
+    id: "3mreda3",
+    name: "reda el farouq",
+    img: "/squidward.jpeg",
+    role: "teacher",
+  }, {
+    id: "3mreda4",
     name: "reda el farouq",
     img: "/squidward.jpeg",
     role: "teacher",

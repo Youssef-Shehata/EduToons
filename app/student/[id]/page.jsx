@@ -3,14 +3,17 @@ import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from "react";
 import debounce from 'lodash.debounce';
 import StudentPage from "./studentPage";
-import { useCharacterContext } from "@/app/selectedCharacterCtx";
 import { getStudentById, getTeachers, getVideosByTeacher } from "@/app/mockData";
+import { useUserContext } from '@/app/currentUserCtx';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  const [query, setQuery] = useState('')
+  const { user, updateUser } = useUserContext()
+  if (user.role == "teacher") redirect(`/teacher/${user.id}`)
+
+
   const [teachers, setTeachers] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const { character, updateCharacter } = useCharacterContext();
 
 
 
@@ -26,31 +29,12 @@ export default function Home() {
         }
       })
       .catch((error) => {
-        ``
         console.error('Error fetching teachers:', error);
+
       }).finally(() => {
         setIsLoading(false);
       });
   }, []);
-
-
-
-  const updateVids = debounce((q) => {
-    setQuery(q.toString().toLowerCase().trim())
-  }, 500);
-  let videos = []
-
-  if (query?.length > 0) {
-    // query = query
-    videos = videos.filter((file) =>
-      file.title.toLowerCase().includes(query)
-    );
-  }
-
-
-
-
-
 
 
 
@@ -71,31 +55,7 @@ export default function Home() {
 
   return (
     <main className="container mx-auto pt-9 p-14">
-      {/* mini header  */}
-      {/* {userType == "teacher" &&
-      } */}
-
-
       <StudentPage teachers={teachers} />
-
-
-
-
-
-
-      {/* {!isLoading && userType != "404" && (userType == "guest" || userType == "teacher") &&
-        <>  
-
-          <GuestPage vids={videos} userType={userType} teacher={teachers.filter(teacher => teacher.id = params.id)} updateVids={updateVids} />
-
-        </>
-      }
-      {!isLoading && isEmpty && userType != "student" &&
-        (
-          <EmptyPage userType={userType} />
-        )}
- */}
-
     </main>
   );
 }
