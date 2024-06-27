@@ -40,7 +40,7 @@ const page = ({ params }) => {
 
   //fetching this teachers videos :
   useEffect(() => {
-    getVideosByTeacherAndCharacter(currentTeacherId,character.value).then(res => {
+    getVideosByTeacherAndCharacter(currentTeacherId, character.value).then(res => {
       console.log("---------sssss-------------ss---")
       console.log(res)
 
@@ -123,17 +123,21 @@ const page = ({ params }) => {
         </div>
 
       }
+      <div className="grid grid-cols-3 gap-2 ">
 
-      {videos?.map(vid => {
-        //uncomment when vids are ready
-        return (<FileCard key={vid.id} vid={vid} userType={userType} />)
+        {videos?.map(vid => {
+          //uncomment when vids are ready
+          if (vid.status == user.role) {
+            return (<FileCard key={vid.id} vid={vid} userType={userType} />)
+          }
 
 
-        //for now 
-        // return (<div>{vid.title}</div>)
+          //for now 
+          // return (<div>{vid.title}</div>)
 
-      })
-      }
+        })
+        }
+      </div>
 
     </main>
   )

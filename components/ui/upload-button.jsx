@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,8 +7,6 @@ import {
   DialogTitle,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
 import {
   Form,
   FormControl,
@@ -17,22 +14,24 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form"
+import { useUserContext } from "@/app/currentUserCtx";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
+import { useForm } from "react-hook-form"
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
-import { useUserContext } from "@/app/currentUserCtx";
 
+import { v4 as uuidv4 } from 'uuid';
+import { join } from "path"
 
 
 export default function UploadButton({ size }) {
   const { toast } = useToast()
-  const { user, updateUser } = useUserContext()
+  const { user } = useUserContext()
   const [dialogOpen, setDialogOpen] = useState(false)
   let userId = user.id
 
-  const generateUploadUrl = () => false
-  const createVid = () => false
 
 
   const form = useForm({
@@ -50,16 +49,22 @@ export default function UploadButton({ size }) {
 
   // 2. Define a submit handler.
   async function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    const postUrl = await generateUploadUrl();
-    const result = await fetch(postUrl, {
-      method: "POST",
-      headers: { "Content-Type": "video/mp4" },
-      body: values.video[0],
-    });
-    const { storageId } = await result.json();
+
+    if (!values.video[0].type.startsWith('video/')) {
+      form.setError('video', { type: 'manual', message: 'Invalid video file type' });
+      return
+    }
+
+
+    //CHANGE URL WHEN RUNNING ON WINDOWS
+    const id = uuidv4().toString()
+    const fileName = `${id}.mp4`
+
+    let url = join('/videos/', fileName)
+
     const VideoData = {
+      "url": url,
+      "fileName": fileName,
       "userId": userId,
       "title": values.title,
       "description": values.description
@@ -67,65 +72,66 @@ export default function UploadButton({ size }) {
 
 
     try {
-      await createVid({
-        storageId: storageId,
-        userId: userId,
-        title: values.title,
-        description: values.description,
-        character: "teacher"
-      }).then(async () => {
-        try {
-          const formData = new FormData();
-          formData.append('video', values.video[0]);
-          formData.append('VideoData', JSON.stringify(VideoData));
-          const uploadResponse = await fetch('http://localhost:8000/api', {
-            method: "POST",
-            body: formData,
-          }).then((res) => {
-            toast({
-              variant: "success",
-              title: "File Uploaded",
-              description: values.title,
-            });
-          })
+      const formData = new FormData();
+      formData.set('video', values.video[0]);
+      formData.set('videoData', JSON.stringify(VideoData)); // Add any additional data as needed
 
-          if (!uploadResponse.ok) {
-            throw new Error('Server upload failed with status: ' + uploadResponse.status);
-          }
+      const response = await fetch('/api/video', {
+        method: 'POST',
+        body: formData,
+      })
 
-          const uploadResult = await uploadResponse.json();
-          console.log('Upload result:', uploadResult);
+      if (!response.ok) {
+        throw new Error("Failed to upload video");
+      }
+
+      // const uploadResponse = await fetch('http://localhost:8000/api', {
+      //   method: 'POST',
+      //   body: formData,
+      // })
 
 
-        } catch (e) {
-          console.log('error uploading to server ')
-        }
+      // if (!uploadResponse.ok) {
+      //   throw new Error("Failed to upload video");
+      // }
 
-
+      toast({
+        variant: "success",
+        title: "File Uploaded",
+        description: values.title,
       });
-      form.reset();
-      setDialogOpen(false);
+
+
+
     } catch (e) {
-      setDialogOpen(false)
-      form.reset();
+      console.error("Error uploading video:", e);
+
       toast({
         variant: "destructive",
         title: "Something went wrong",
         description: `couldnt upload ${values.title}`
       })
+    } finally {
+      form.reset();
+      setDialogOpen(false);
     }
-
-
-
   }
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={(dialogOpen) => {
-      setDialogOpen(dialogOpen)
-      form.reset();
-    }}>
+    <Dialog
+      open={dialogOpen}
+      onOpenChange={(dialogOpen) => {
+        setDialogOpen(dialogOpen)
+        form.reset();
+      }}
+    >
       <DialogTrigger asChild>
-        <Button variant="default" size={size}>Upload Vid </Button>
+        <Button
+          variant="default"
+          size={size}
+        >
+          Upload Vid
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -133,7 +139,8 @@ export default function UploadButton({ size }) {
           <DialogDescription className="pt-6">
 
             <Form {...form} >
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 pb-3 flex flex-col justify-start ">
+              <form onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8 pb-3 flex flex-col justify-start ">
                 <FormField
                   control={form.control}
                   name="title"
@@ -141,6 +148,7 @@ export default function UploadButton({ size }) {
                     <FormItem>
                       <FormControl>
                         <Input placeholder="Title" {...field}
+                          required
                         />
                       </FormControl>
                       <FormMessage />
@@ -155,6 +163,7 @@ export default function UploadButton({ size }) {
                     <FormItem>
                       <FormControl>
                         <Input placeholder="Video Description" {...field}
+                          required
                         />
                       </FormControl>
                       <FormMessage />
@@ -170,6 +179,7 @@ export default function UploadButton({ size }) {
                         <Input type="file"
                           placeholder="Upload video "
                           {...fileRef}
+                          required
                         />
                       </FormControl>
                       <FormMessage />

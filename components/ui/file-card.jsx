@@ -16,7 +16,7 @@ export default function FileCard({ vid, userType }) {
     const regex = /\/videos\/[^\/]+/;
     const match = fullPath.match(regex);
     return match ? match[0] : null;
-}
+  }
   return (
 
     <Card className='border-0'>
