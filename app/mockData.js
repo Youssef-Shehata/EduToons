@@ -1,3 +1,4 @@
+import { Description } from "@radix-ui/react-dialog";
 
 
 
@@ -116,67 +117,121 @@ const teachers = [
     role: "teacher",
   },
 ];
-const getTeachers = () => {
+const getTeachers = async() => {
+  try {
+    const response = await fetch('http://localhost:3000/api/db/teachers', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
+    const teachers = await response.json();
+    console.log(teachers)
+    return Promise.resolve(teachers);
+  } catch (error) {
+    console.error('Error fetching users:', error);
 
-  return Promise.resolve(teachers);
+  }  
 };
 
-const getVideosByTeacher = (teacherId) => {
+const getVideosByTeacher = async (teacherId) => {
+  try {
+    const response = await fetch('http://localhost:3000/api/db/videos', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-  const vids = teacherVideos.filter(vid => vid.teacherId == teacherId);
-  console.log(vids)
-  return Promise.resolve(vids);
-};
+    const videos = await response.json();
+    console.log(videos)
+    const vids = videos.filter(vid => vid.teacherId == teacherId);
+    console.log(vids)
+    return Promise.resolve(vids);
+    
+  } catch (error) {
+    console.error('Error fetching users:', error);
 
-const getVideosByTeacherAndCharacter = (teacherId, character) => {
-  const vids = studentVideos.filter(vid => vid.teacherId == teacherId && vid.character == character);
-  return Promise.resolve(vids);
-};
-
-
-
-const getStudentById = (id) => {
-  let student = students.filter(student => {
-    return student.id == id;
-  })
-
-  return Promise.resolve(student[0])
-}
-
-const getTeacherById = (id) => {
-  let teacher = teachers.filter(teacher => {
-    return teacher.id == id;
-  })
-
-  console.log(teacher)
-  return Promise.resolve(teacher[0])
-}
-
-
-const logIn = (user) => {
-  let foundUsers = users.filter(u => {
-    return user.email === u.email && user.password === u.password
-  })
-
-
-  if (foundUsers.length == 0) return Promise.reject("User Not Found")
-  let currentUser = foundUsers[0]
-  if (currentUser.role === "student") {
-    currentUser = students.find(student => student.id = currentUser.id)
-
-    return Promise.resolve(currentUser)
   }
+};
+
+const getVideosByTeacherAndCharacter = async(teacherId, character) => {
+  try {
+    const response = await fetch('http://localhost:3000/api/db/videos', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const videos = await response.json();
+    console.log(videos)
+    const vids = videos.filter(vid => vid.teacherId == teacherId && vid.character == character);
+    console.log(vids)
+    return Promise.resolve(vids);
+    
+  } catch (error) {
+    console.error('Error fetching users:', error);
+
+  }
+};
 
 
-  if (currentUser.role === "teacher") {
-    currentUser = teachers.find(teacher => teacher.id = currentUser.id)
 
-    return Promise.resolve(currentUser)
+const getStudentById = async(id) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/db/students/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const student = await response.json()
+    console.log(student)
+    return Promise.resolve(student)
+  } catch (error) {
+    console.error('Error fetching users:', error);
+
   }
 }
+
+const getTeacherById = async(id) => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/db/teachers/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const student = await response.json()
+    console.log(student)
+    return Promise.resolve(student)
+  } catch (error) {
+    console.error('Error fetching users:', error);
+
+  }
+}
+
+const uploadVideos = async(video) => {
+  try {
+    const response = await fetch('http://localhost:3000/api/db/videos', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      body: JSON.stringify({ "url": video.url, "status": video.status,"teacherid": video.teacherid,"character":video.character,"title":video.title,"description":video.description }),
+      },
+    });
+    const videoUploadStatus = await response.json()
+    console.log(videoUploadStatus)
+    return videoUploadStatus
+  } catch (error) {
+    console.error('Error fetching users:', error);
+  }
+}
+
 export {
-  logIn,
+  uploadVideos,
   getTeacherById,
   getStudentById,
   getTeachers,

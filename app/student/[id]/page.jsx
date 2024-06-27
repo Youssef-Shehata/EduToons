@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from "react";
 import debounce from 'lodash.debounce';
 import StudentPage from "./studentPage";
-import { getStudentById, getTeachers, getVideosByTeacher } from "@/app/mockData";
+import {  getTeachers, getVideosByTeacher } from "@/app/mockData";
 import { useUserContext } from '@/app/currentUserCtx';
 import { redirect } from 'next/navigation';
 

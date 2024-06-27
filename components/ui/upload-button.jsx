@@ -18,20 +18,12 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { z } from "zod"
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import { useUserContext } from "@/app/currentUserCtx";
 
-const formSchema = z.object({
-  title: z.string().min(1).max(20),
-  description: z.string().min(1).max(30).optional(),
-  // topics: new z.ZodArray().optional(),
-  video: z.custom((val) => val instanceof FileList, "Required")
-    .refine((files) => files.length > 0, "Required"),
-  character: z.string()
-})
+
 
 export default function UploadButton({ size }) {
   const { toast } = useToast()
@@ -44,7 +36,6 @@ export default function UploadButton({ size }) {
 
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       description: "",

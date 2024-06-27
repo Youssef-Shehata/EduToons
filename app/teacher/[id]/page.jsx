@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useEffect, useState } from "react";
 import debounce from 'lodash.debounce';
 import SearchBar from "@/components/ui/search-bar";
-import { getVideosByTeacher } from "@/app/mockData";
+import { getVideosByTeacher, getVideosByTeacherAndCharacter } from "@/app/mockData";
 import FileCard from "@/components/ui/file-card";
 import { ComboBoxResponsive } from "@/components/ui/combobox";
 import { useCharacterContext } from "@/app/selectedCharacterCtx";
@@ -34,12 +34,14 @@ const page = ({ params }) => {
 
   let currentTeacherId = user.id;
   let userType = user.role;
-  let visitor = params.id == currentTeacherId ? false : true
+  // let visitor = params.id == currentTeacherId ? false : true
+  let visitor = userType == "teacher" ? false : true
   if (userType == 'teacher' && visitor) redirect(`/teacher/${user.id}`)
 
   //fetching this teachers videos :
   useEffect(() => {
-    getVideosByTeacher(currentTeacherId).then(res => {
+    getVideosByTeacherAndCharacter(currentTeacherId,character.value).then(res => {
+      console.log("---------sssss-------------ss---")
       console.log(res)
 
       setVideos(res)
@@ -124,11 +126,12 @@ const page = ({ params }) => {
 
       {videos?.map(vid => {
         //uncomment when vids are ready
-        // return (<FileCard key={vid.id} vid={vid} userType={userType} />)
+        return (<FileCard key={vid.id} vid={vid} userType={userType} />)
 
 
         //for now 
-        return (<div>{vid.title}</div>)
+        // return (<div>{vid.title}</div>)
+
       })
       }
 

@@ -37,8 +37,8 @@ export function UserContextProvider({ children }) {
   const role = process.env.NEXT_PUBLIC_ROLE;
 
   useEffect(() => {
-    if (role && role == 'teacher') setUser(teacher);
-    if (role && role == 'student') setUser(student);
+    if (role && role.toLowerCase() == 'teacher') setUser(teacher);
+    if (role && role.toLowerCase() == 'student') setUser(student);
 
   }, [role]);
 
