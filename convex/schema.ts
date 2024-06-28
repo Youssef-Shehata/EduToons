@@ -15,7 +15,7 @@ export default defineSchema({
     userId: v.string(),
     title: v.string(),
     topics: v.optional(v.array(v.string())),
-    character: v.string()
+    character: v.optional(v.string())
   }).index("by_userId", ['userId']),
 });
 

@@ -5,11 +5,12 @@ import Link from 'next/link';
 const Header = () => {
 
   return (
-    <header className="bg-background text-white z-12 py-6 px-4 flex items-center bg-opacity-60 ">
-      <div className="container mx-auto px-4 flex justify-between">
-        <Link href='/' className="text-6xl font-bold gluten-custom ">EduToons
+    <header className="flex justify-between w-full absolute text-white z-50 py-10 px-32   ">
 
-        </Link>
+      <div className="container mx-auto px-4 flex justify-between">
+
+
+        <Link href='/' className="text-6xl font-bold gluten-custom ">EduToons</Link>
         <div className="flex justify-between items-center">
           {/* <SignedOut>
             <SignInButton className="px-5" mode="modal" />
