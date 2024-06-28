@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
 
         <ConvexClientProvider>
 
-          <Header />
+          {/* <Header /> */}
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
