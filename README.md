@@ -20,11 +20,9 @@ EduToons is an innovative e-learning platform that transforms traditional teachi
 - **RVC Model**: Utilizes Retrieval-based Voice Conversion
 - **HuBERT Integration**: Implements Hidden-Unit BERT model for feature extraction
 - **Performance Metrics**:
-  - Mel-Cepstral Distortion (MCD): 10.059 dB
-  - logF0_RMSE: 0.238
-  - Mean Opinion Score (MOS): 2.958
-  - Speaker Verification Accept Rate: 1.0
-
+  - Subjective evaluation through MOS testing
+  - Spectral analysis through MCEP trajectories
+  - Mel-Cepstral Coefficients (MCEP)
 ### Video Processing Pipeline
 ![vidoe_pipline](docs/video_pipline.png)
 
@@ -50,9 +48,9 @@ EduToons is an innovative e-learning platform that transforms traditional teachi
 ![MCEP_trajectories](docs/MCEP_TRAJECTORY_GRAPH.png) 
 
 - **Voice Conversion Quality**:
-  - Spectral analysis through MCEP trajectories
-  - Global Variance (GV) measurements
-  - Subjective evaluation through MOS testing
+  - logF0_RMSE: 0.2
+  - Mel-Cepstral Coefficients (MCEP): 0.2
+  - MOS scale (survey): 4.1
 
 ## 🛠️ Technical Stack
 
@@ -61,7 +59,7 @@ EduToons is an innovative e-learning platform that transforms traditional teachi
 
 - Google Colab (Model Training)
 - FFmpeg (Audio Processing)
-- RVC (Voice Cloning)
+- RVC (Voice COnversion/Cloning)
 - huBERT (Feature Extraction)
 - RMVPE (Frequency Estimation)
 
