@@ -123,7 +123,7 @@ If you use this work in your research, please cite:
 
 ## 🤝 Acknowledgments
 
-This research was conducted as part of a graduation project at [Your Institution]. Special thanks to the faculty advisors and research participants who contributed to this work.
+This research was conducted as part of a graduation project at Ain Shams University. Special thanks to the faculty advisors and research participants who contributed to this work.
 
 ## 📄 License
 
