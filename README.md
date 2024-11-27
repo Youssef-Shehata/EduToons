@@ -63,7 +63,7 @@ This research project addresses the challenge of maintaining young learners' int
 
   - logF0_RMSE: 0.2
   - MOS scale (survey): 4.1
-  - for more details on voice converion read ![here](https://github.com/YoussefMohamedym3/voice-conversion-evaluation/blob/main/README.md).
+  - for more details on voice converion read [here](https://github.com/YoussefMohamedym3/voice-conversion-evaluation/blob/main/README.md).
 
 ## 🛠️ Technical Stack
 
