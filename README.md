@@ -7,7 +7,6 @@
 EduToons is an innovative e-learning platform that transforms traditional teaching materials into engaging animated content using advanced AI technologies.
 This research project addresses the challenge of maintaining young learners' interest in online education through the integration of voice cloning and animation technologies.
 
-
 ## 🎯 Research Objectives
 
 - Develop an AI-driven system for creating interactive and engaging learning experiences
@@ -53,13 +52,15 @@ This research project addresses the challenge of maintaining young learners' int
 - Content: Educational lessons and stories for children
 
 ### Performance Evaluation
+
 - **Does Animation Actually Help Children ?**:
-    - **Survey**:
+
+  - **Survey**:
     Due to time constraints, we were unable to conduct an experimental study in local schools. Instead, we surveyed our siblings.
     Despite a potential bias, they responded enthusiastically to the concept of a cartoon character teaching and answering their questions.
 
 - **Voice Conversion Quality**:
-![MCEP_trajectories](docs/MCEP_TRAJECTORY_GRAPH.png) 
+  ![Mean_MCEP_for_Dimension](docs/Mean_MCEP_for_Dimension.png)
 
   - logF0_RMSE: 0.2
   - MOS scale (survey): 4.1
