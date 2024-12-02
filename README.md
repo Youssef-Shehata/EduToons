@@ -60,7 +60,7 @@ This research project addresses the challenge of maintaining young learners' int
     Despite a potential bias, they responded enthusiastically to the concept of a cartoon character teaching and answering their questions.
 
 - **Voice Conversion Quality**:
-  ![MCEP_trajectories](docs/MCEP_TRAJECTORY_GRAPH.png)
+  ![Mean_MCEP_for_Dimension](docs/Mean_MCEP_for_Dimension.png)
 
   - logF0_RMSE: 0.2
   - MOS scale (survey): 4.1
